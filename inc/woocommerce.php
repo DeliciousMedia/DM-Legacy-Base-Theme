@@ -29,7 +29,7 @@ add_action( 'after_setup_theme', '_s_woocommerce_setup' );
  * @return void
  */
 function _s_woocommerce_scripts() {
-	wp_enqueue_style( '_s-woocommerce-style', get_template_directory_uri() . '/woocommerce.css' );
+	wp_enqueue_style( '_s-woocommerce-style', get_template_directory_uri() . '/assets/css/woocommerce.css' );
 
 	$font_path   = WC()->plugin_url() . '/assets/fonts/';
 	$inline_font = '@font-face {
@@ -107,10 +107,10 @@ add_filter( 'loop_shop_columns', '_s_woocommerce_loop_columns' );
  * @return array $args related products args.
  */
 function _s_woocommerce_related_products_args( $args ) {
-	$defaults = array(
+	$defaults = [
 		'posts_per_page' => 3,
 		'columns'        => 3,
-	);
+	];
 
 	$args = wp_parse_args( $defaults, $args );
 
@@ -225,8 +225,8 @@ if ( ! function_exists( '_s_woocommerce_cart_link' ) ) {
 	function _s_woocommerce_cart_link() {
 		?>
 			<a class="cart-contents" href="<?php echo esc_url( wc_get_cart_url() ); ?>" title="<?php esc_attr_e( 'View your shopping cart', '_s' ); ?>">
-				<?php /* translators: number of items in the mini cart. */ ?>
-				<span class="amount"><?php echo wp_kses_data( WC()->cart->get_cart_subtotal() ); ?></span> <span class="count"><?php echo wp_kses_data( sprintf( _n( '%d item', '%d items', WC()->cart->get_cart_contents_count(), '_s' ), WC()->cart->get_cart_contents_count() ) );?></span>
+				<?php ;/* translators: number of items in the mini cart. */ ?>
+				<span class="amount"><?php echo wp_kses_data( WC()->cart->get_cart_subtotal() ); ?></span> <span class="count"><?php echo wp_kses_data( sprintf( _n( '%d item', '%d items', WC()->cart->get_cart_contents_count(), '_s' ), WC()->cart->get_cart_contents_count() ) ); ?></span>
 			</a>
 		<?php
 	}
@@ -251,9 +251,9 @@ if ( ! function_exists( '_s_woocommerce_header_cart' ) ) {
 			</li>
 			<li>
 				<?php
-					$instance = array(
+					$instance = [
 						'title' => '',
-					);
+					];
 
 					the_widget( 'WC_Widget_Cart', $instance );
 				?>
