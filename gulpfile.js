@@ -28,7 +28,9 @@ gulp.task('sass', function() {
   .pipe(sourcemaps.init())
   .pipe(sass())
   .pipe(autoprefixer())
+  .pipe(gulp.dest('./assets/css'))
   .pipe(cssnano())
+  .pipe(rename({ extname: '.min.css' }))
   .pipe(sourcemaps.write('.'))
   .pipe(gulp.dest('./assets/css'));
 //  .pipe(rtlcss())                     // Convert to RTL
@@ -41,6 +43,7 @@ gulp.task('js', function() {
   return gulp.src(['./src/js/*.js'])
   .pipe(jshint())
   .pipe(jshint.reporter('default'))
+  .pipe(gulp.dest('./assets/js'))
   //.pipe(concat('app.js'))
   .pipe(rename({suffix: '.min'}))
   .pipe(uglify())
@@ -64,3 +67,4 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', ['sass', 'js', 'images', 'watch']);
+gulp.task('build', ['sass', 'js', 'images' ]);
