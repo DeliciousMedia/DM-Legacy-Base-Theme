@@ -20,6 +20,7 @@
 	},
 	"devDependencies": {
 		"gulp-cached": "^1.1.1",
+		"gulp-combine-mq": "^0.4.0",
 		"gulp-cssnano": "^2.1.2",
 		"gulp-dest-clean": "^0.5.0",
 		"gulp-jshint": "^2.0.4",
@@ -34,5 +35,6 @@
 	},
 	"author": "Delicious Media Limited",
 	"license": "GPL",
+	"private": true,
 	"readme": "No readme"
 }
