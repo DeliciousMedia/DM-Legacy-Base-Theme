@@ -29,7 +29,10 @@ add_action( 'after_setup_theme', '_s_woocommerce_setup' );
  * @return void
  */
 function _s_woocommerce_scripts() {
-	wp_enqueue_style( '_s-woocommerce-style', get_template_directory_uri() . '/assets/css/woocommerce.css' );
+
+	$suffix = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? '' : '.min';
+
+	wp_enqueue_style( '_s-woocommerce-style', get_template_directory_uri() . '/assets/css/woocommerce' . $suffix . '.css' );
 
 	$font_path   = WC()->plugin_url() . '/assets/fonts/';
 	$inline_font = '@font-face {
