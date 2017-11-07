@@ -8,9 +8,9 @@ Designed to be used in conjunction with [our provisioning script](https://github
 
 This theme uses Gulp to automate compilation of SASS into CSS, minification of JS/CSS and optimisation of images. It requires NPM & Gulp CLI.
 
-- Source SASS files are in `/content/themes/THEMENAME/src/sass/` and are compiled into `/content/THEMENAME/cocoon/assets/css/`
+- Source SASS files are in `/content/themes/THEMENAME/src/sass/` and are compiled into `/content/THEMENAME/assets/css/`
 - Source JavaScript are in `/content/themes/THEMENAME/src/js/` and are placed in `/content/themes/THEMENAME/assets/js/`
-- Source images are in `/content/themes/THEMENAME/src/img/` and are placed in `/content/THEMENAME/cocoon/assets/img/`
+- Source images are in `/content/themes/THEMENAME/src/img/` and are placed in `/content/THEMENAME/assets/img/`
 
 The gulp tasks will create minified and unminified versions of CSS and JavaScript; by default the minified versions are only used in live, this is controlled by the `WP_DEBUG` constant which you should set to true in local-config.php (this is done automatically set on `DEV` and `STAGE`).
 
