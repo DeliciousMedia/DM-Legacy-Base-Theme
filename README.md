@@ -17,7 +17,7 @@ The gulp tasks will create minified and unminified versions of CSS and JavaScrip
 To get started, install the required node modules.
 
 ```
-cd content/themes/cocoon
+cd content/themes/THEMENAME
 npm install
 ```
 
