@@ -16,9 +16,11 @@
     "gulp-rename": "^1.2.2",
     "gulp-rtlcss": "^1.0.0",
     "gulp-sass": "^3.1.0",
+    "gulp-smushit": "^1.2.0",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-uglify": "^3.0.0",
-    "gulp-util": "^3.0.8"
+    "gulp-util": "^3.0.8",
+    "merge-stream": "^1.0.1"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
