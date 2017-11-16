@@ -1,21 +1,23 @@
 require('es6-promise').polyfill();
 
 var gulp     = require('gulp'),
-  sass         = require('gulp-sass'),
-  sourcemaps   = require('gulp-sourcemaps');
-  //rtlcss     = require('gulp-rtlcss'),
-  autoprefixer = require('gulp-autoprefixer'),
-  plumber      = require('gulp-plumber'),
-  gutil        = require('gulp-util'),
-  rename       = require('gulp-rename'),
-  concat       = require('gulp-concat'),
-  jshint       = require('gulp-jshint'),
-  uglify       = require('gulp-uglify'),
-  imagemin     = require('gulp-imagemin'),
-  cssnano      = require('gulp-cssnano'),
-  newer        = require('gulp-newer');
-  cached       = require('gulp-cached');
-  combinemq    = require('gulp-combine-mq');
+sass         = require('gulp-sass'),
+sourcemaps   = require('gulp-sourcemaps');
+//rtlcss     = require('gulp-rtlcss'),
+autoprefixer = require('gulp-autoprefixer'),
+plumber      = require('gulp-plumber'),
+gutil        = require('gulp-util'),
+rename       = require('gulp-rename'),
+concat       = require('gulp-concat'),
+jshint       = require('gulp-jshint'),
+uglify       = require('gulp-uglify'),
+imagemin     = require('gulp-imagemin'),
+smushit      = require('gulp-smushit'),
+merge        = require('merge-stream'),
+cssnano      = require('gulp-cssnano'),
+newer        = require('gulp-newer');
+cached       = require('gulp-cached');
+combinemq    = require('gulp-combine-mq');
 
 var onError  = function(err) {
     console.log('An error occurred:', gutil.colors.magenta(err.message));
@@ -57,12 +59,21 @@ gulp.task('js', function() {
 
 // Images
 gulp.task('images', function() {
-    return gulp.src('./src/img/*')
+     var svggif = gulp.src('./src/img/**/*.{svg,gif}')
         .pipe(plumber({ errorHandler: onError }))
         .pipe(newer('./assets/img'))
         //  .pipe(cached('images'))
         .pipe(imagemin({ progressive: true }))
         .pipe(gulp.dest('./assets/img'));
+
+     var pngjpg = gulp.src('./src/img/**/*.{png,jpg,jpeg}')
+        .pipe(plumber({ errorHandler: onError }))
+        .pipe(newer('./assets/img'))
+        .pipe(smushit())
+        .pipe(gulp.dest('./assets/img'));
+
+    return merge(svggif, pngjpg);
+
 });
 
 // Watch
