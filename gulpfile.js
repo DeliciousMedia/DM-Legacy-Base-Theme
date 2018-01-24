@@ -1,23 +1,24 @@
 require('es6-promise').polyfill();
 
-var gulp     = require('gulp'),
-sass         = require('gulp-sass'),
-sourcemaps   = require('gulp-sourcemaps');
-//rtlcss     = require('gulp-rtlcss'),
-autoprefixer = require('gulp-autoprefixer'),
-plumber      = require('gulp-plumber'),
-gutil        = require('gulp-util'),
-rename       = require('gulp-rename'),
-concat       = require('gulp-concat'),
-jshint       = require('gulp-jshint'),
-uglify       = require('gulp-uglify'),
-imagemin     = require('gulp-imagemin'),
-smushit      = require('gulp-smushit'),
-merge        = require('merge-stream'),
-cssnano      = require('gulp-cssnano'),
-newer        = require('gulp-newer');
-cached       = require('gulp-cached');
-combinemq    = require('gulp-combine-mq');
+var gulp         = require('gulp'),
+sass             = require('gulp-sass'),
+sourcemaps       = require('gulp-sourcemaps');
+//rtlcss         = require('gulp-rtlcss'),
+autoprefixer     = require('gulp-autoprefixer'),
+plumber          = require('gulp-plumber'),
+gutil            = require('gulp-util'),
+rename           = require('gulp-rename'),
+concat           = require('gulp-concat'),
+jshint           = require('gulp-jshint'),
+uglify           = require('gulp-uglify'),
+imagemin         = require('gulp-imagemin'),
+smushit          = require('gulp-smushit'),
+merge            = require('merge-stream'),
+cssnano          = require('gulp-cssnano'),
+newer            = require('gulp-newer');
+cached           = require('gulp-cached');
+stripcsscomments = require('gulp-strip-css-comments');
+
 
 var onError  = function(err) {
     console.log('An error occurred:', gutil.colors.magenta(err.message));
@@ -32,10 +33,8 @@ gulp.task('sass', function() {
         .pipe(sourcemaps.init())
         .pipe(sass())
         .pipe(autoprefixer())
+        .pipe(stripcsscomments())        
         .pipe(gulp.dest('./assets/css'))
-        .pipe(combinemq({
-            beautify: false
-        }))
         .pipe(cssnano())
         .pipe(rename({ extname: '.min.css' }))
         .pipe(sourcemaps.write('.'))
