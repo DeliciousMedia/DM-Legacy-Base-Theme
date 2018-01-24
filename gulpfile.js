@@ -33,7 +33,7 @@ gulp.task('sass', function() {
         .pipe(sourcemaps.init())
         .pipe(sass())
         .pipe(autoprefixer())
-        .pipe(stripcsscomments())        
+        .pipe(stripcsscomments())
         .pipe(gulp.dest('./assets/css'))
         .pipe(cssnano())
         .pipe(rename({ extname: '.min.css' }))
