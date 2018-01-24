@@ -27,3 +27,8 @@
 @mixin column-width($numberColumns: 3) {
 	width: map-get( $columns, $numberColumns ) - ( ( $columns__margin * ( $numberColumns - 1 ) ) / $numberColumns );
 }
+
+// Media query helper
+@mixin respond-bigger($size) {
+	@media only screen and (min-width: $size) { @content; }
+}
