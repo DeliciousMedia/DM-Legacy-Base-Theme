@@ -122,3 +122,8 @@ add_action( 'wp_enqueue_scripts', '_s_scripts' );
 if ( class_exists( 'WooCommerce' ) ) {
 	require get_template_directory() . '/inc/woocommerce.php';
 }
+
+/**
+ * Load login page customiser file.
+ */
+require get_template_directory() . '/inc/customise-login.php';
