@@ -12,30 +12,30 @@
  *
  * @return string
  */
-function my_login_logo_url() {
+function dm_set_login_logo_url() {
 	return home_url();
 }
-add_filter( 'login_headerurl', 'my_login_logo_url' );
+add_filter( 'login_headerurl', 'dm_set_login_logo_url' );
 
 /**
  * Sets title of login page logo link.
  *
  * @return string
  */
-function my_login_logo_url_title() {
+function dm_set_login_logo_url_title() {
 	$title = ( get_bloginfo( 'name' ) );
 	if ( $title ) {
 		return $title;
 	}
 }
-add_filter( 'login_headertitle', 'my_login_logo_url_title' );
+add_filter( 'login_headertitle', 'dm_set_login_logo_url_title' );
 
 /**
  * Adds a logo as a background image along with other page styles.
  *
  * @return mixed
  */
-function my_login_logo() {
+function dm_set_login_logo_styles() {
 	?>
 	<style type="text/css">
 
@@ -62,4 +62,4 @@ function my_login_logo() {
 	</style>
 <?php
 }
-add_action( 'login_enqueue_scripts', 'my_login_logo' );
+add_action( 'login_enqueue_scripts', 'dm_set_login_logo_styles' );
