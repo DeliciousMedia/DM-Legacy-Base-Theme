@@ -35,7 +35,9 @@ gulp.task('sass', function() {
         .pipe(autoprefixer())
         .pipe(stripcsscomments())
         .pipe(gulp.dest('./assets/css'))
-        .pipe(cssnano())
+        .pipe(cssnano({
+            autoprefixer: {browsers: ['> 1%', 'last 2 versions', 'iOS >= 8'], add: true}
+        }))
         .pipe(rename({ extname: '.min.css' }))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('./assets/css'));
@@ -77,10 +79,10 @@ gulp.task('images', function() {
 
 // Watch
 gulp.task('watch', function() {
-    gulp.watch('src/sass/**/*.scss', ['sass']);
-    gulp.watch('src/js/*.js', ['js']);
-    gulp.watch('src/img/**/*', ['images']);
+    gulp.watch('src/sass/**/*.scss', gulp.series('sass'));
+    gulp.watch('src/js/*.js', gulp.series('js'));
+    gulp.watch('src/img/**/*', gulp.series('images'));
 });
 
-gulp.task('default', ['sass', 'js', 'images', 'watch']);
-gulp.task('build', ['sass', 'js', 'images']);
+gulp.task('default', gulp.parallel('sass', 'js', 'images', 'watch'));
+gulp.task('build', gulp.parallel(['sass', 'js', 'images']));
