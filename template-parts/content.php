@@ -28,8 +28,6 @@
 		?>
 	</header><!-- .entry-header -->
 
-	<?php _s_post_thumbnail(); ?>
-
 	<div class="entry-content">
 		<?php
 			the_content(
