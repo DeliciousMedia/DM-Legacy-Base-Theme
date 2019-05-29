@@ -16,7 +16,7 @@
 	<footer id="colophon" class="site-footer">
 		<div class="site-info">
 				<?php
-				/* translators: 1: Theme name, 2: Theme author. */
+				/* translators: Theme author. */
 				printf( esc_html__( 'Site by %1$s' ), '<a href="https://www.deliciousmedia.co.uk/">Delicious Media</a>' );
 			?>
 		</div><!-- .site-info -->
