@@ -7,21 +7,20 @@
  * @package _s
  */
 
-get_header(); ?>
+get_header();
+?>
 
 	<section id="primary" class="content-area">
 		<main id="main" class="site-main">
 
-		<?php
-		if ( have_posts() ) :
-		?>
+		<?php if ( have_posts() ) : ?>
 
 			<header class="page-header">
 				<h1 class="page-title">
-				<?php
+					<?php
 					/* translators: %s: search query. */
 					printf( esc_html__( 'Search Results for: %s', '_s' ), '<span>' . get_search_query() . '</span>' );
-				?>
+					?>
 				</h1>
 			</header><!-- .page-header -->
 
