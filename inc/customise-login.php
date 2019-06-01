@@ -28,7 +28,7 @@ function dm_set_login_logo_url_title() {
 		return $title;
 	}
 }
-add_filter( 'login_headertitle', 'dm_set_login_logo_url_title' );
+add_filter( 'login_headertext', 'dm_set_login_logo_url_title' );
 
 /**
  * Adds a logo as a background image along with other page styles.

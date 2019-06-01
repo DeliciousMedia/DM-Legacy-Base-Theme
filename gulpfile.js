@@ -1,23 +1,22 @@
 require('es6-promise').polyfill();
 
-var gulp         = require('gulp'),
-sass             = require('gulp-sass'),
-sourcemaps       = require('gulp-sourcemaps');
-//rtlcss         = require('gulp-rtlcss'),
-autoprefixer     = require('gulp-autoprefixer'),
-plumber          = require('gulp-plumber'),
-gutil            = require('gulp-util'),
-rename           = require('gulp-rename'),
-concat           = require('gulp-concat'),
-jshint           = require('gulp-jshint'),
-uglify           = require('gulp-uglify'),
-imagemin         = require('gulp-imagemin'),
-smushit          = require('gulp-smushit'),
-merge            = require('merge-stream'),
-cssnano          = require('gulp-cssnano'),
-newer            = require('gulp-newer');
-cached           = require('gulp-cached');
-stripcsscomments = require('gulp-strip-css-comments');
+var gulp             = require('gulp'),
+    sass             = require('gulp-sass'),
+    sourcemaps       = require('gulp-sourcemaps');
+    //rtlcss         = require('gulp-rtlcss'),
+    autoprefixer     = require('gulp-autoprefixer'),
+    plumber          = require('gulp-plumber'),
+    gutil            = require('gulp-util'),
+    rename           = require('gulp-rename'),
+    concat           = require('gulp-concat'),
+    jshint           = require('gulp-jshint'),
+    uglify           = require('gulp-uglify'),
+    imagemin         = require('gulp-imagemin'),
+    imageminmozjpeg  = require('imagemin-mozjpeg'),
+    cssnano          = require('gulp-cssnano'),
+    newer            = require('gulp-newer');
+    cached           = require('gulp-cached');
+    stripcsscomments = require('gulp-strip-css-comments');
 
 
 var onError  = function(err) {
@@ -35,7 +34,9 @@ gulp.task('sass', function() {
         .pipe(autoprefixer())
         .pipe(stripcsscomments())
         .pipe(gulp.dest('./assets/css'))
-        .pipe(cssnano())
+        .pipe(cssnano({
+            autoprefixer: {browsers: ['> 1%', 'last 2 versions', 'iOS >= 8'], add: true}
+        }))
         .pipe(rename({ extname: '.min.css' }))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('./assets/css'));
@@ -57,30 +58,39 @@ gulp.task('js', function() {
 });
 
 // Images
+// By default we use mozjpeg at 90% which is very slightly lossy but shouldn't be perceptible. 
+// Where this is unacceptable, switch out for jpegtran which is lossless but much smaller savings.
 gulp.task('images', function() {
-     var svggif = gulp.src('./src/img/**/*.{svg,gif}')
+     var images = gulp.src('./src/img/**/*.{png,jpg,jpeg,gif,svg}')
         .pipe(plumber({ errorHandler: onError }))
         .pipe(newer('./assets/img'))
-        //  .pipe(cached('images'))
-        .pipe(imagemin({ progressive: true }))
+        .pipe(imagemin([
+            imagemin.gifsicle({interlaced: true}),
+            //imagemin.jpegtran({progressive: true}),
+            imageminmozjpeg({
+                progressive: true,
+                quality: 90
+            }),
+            imagemin.optipng({optimizationLevel: 5}),
+            imagemin.svgo({
+                plugins: [
+                    {removeViewBox: true},
+                    {cleanupIDs: false}
+                ]
+            })
+        ]))
         .pipe(gulp.dest('./assets/img'));
 
-     var pngjpg = gulp.src('./src/img/**/*.{png,jpg,jpeg}')
-        .pipe(plumber({ errorHandler: onError }))
-        .pipe(newer('./assets/img'))
-        .pipe(smushit())
-        .pipe(gulp.dest('./assets/img'));
-
-    return merge(svggif, pngjpg);
+    return images;
 
 });
 
 // Watch
 gulp.task('watch', function() {
-    gulp.watch('src/sass/**/*.scss', ['sass']);
-    gulp.watch('src/js/*.js', ['js']);
-    gulp.watch('src/img/**/*', ['images']);
+    gulp.watch('src/sass/**/*.scss', gulp.series('sass'));
+    gulp.watch('src/js/*.js', gulp.series('js'));
+    gulp.watch('src/img/**/*', gulp.series('images'));
 });
 
-gulp.task('default', ['sass', 'js', 'images', 'watch']);
-gulp.task('build', ['sass', 'js', 'images']);
+gulp.task('default', gulp.parallel('sass', 'js', 'images', 'watch'));
+gulp.task('build', gulp.parallel(['sass', 'js', 'images']));

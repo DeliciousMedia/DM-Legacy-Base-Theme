@@ -2,7 +2,7 @@
 /**
  * Template part for displaying posts
  *
- * @link https://codex.wordpress.org/Template_Hierarchy
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
  * @package _s
  */
@@ -51,6 +51,7 @@
 					'after'  => '</div>',
 				]
 			);
+
 		?>
 	</div><!-- .entry-content -->
 
