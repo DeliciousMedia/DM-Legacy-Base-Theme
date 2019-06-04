@@ -20,7 +20,7 @@
     "gulp-sourcemaps": "latest",
     "gulp-uglify": "latest",
     "gulp-util": "latest",
-    "gulp-remove-empty-lines": "latest",
+    "gulp-remove-empty-lines": "latest"
   },
   "devDependencies": {
     "gulp": "latest",
