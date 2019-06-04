@@ -1,0 +1,11 @@
+# Node modules
+content/themes/*/node_modules/**
+
+# Source folder for SASS/JS/Images
+content/themes/*/src/**
+
+#
+package-lock.json
+phpcs.xml.dist
+.travis.yml
+gulpfile.js
