@@ -1,0 +1,15 @@
+.content-container {
+	max-width: $desktop__max-width;
+	margin: 0 auto;
+}
+
+.boxed {
+	margin: 0 auto;
+	padding: $margin__md 0;
+	width: 90%;
+	max-width: $breakpoint__large;
+
+	@include respond-bigger($breakpoint__medium) {
+		width: 80%;
+	}
+}

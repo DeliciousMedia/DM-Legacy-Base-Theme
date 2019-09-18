@@ -1,0 +1,131 @@
+@mixin mobile-max-width {
+    max-width: $mobile__max-width;
+    margin-left: auto;
+    margin-right: auto;
+
+    @include respond-bigger($breakpoint__medium) {
+        max-width: 100%;
+        margin-left: initial;
+        margin-right: initial;
+    }
+}
+
+/**
+ * Set up the row. We're using the SASS grid as a basis here. http://thesassway.com/intermediate/simple-grid-mixins
+ *
+ * font-size is set to 0 because : This is little hack to kill the default margin of inline-block elements. (Inline-block elements appear in the normal text flow of the document, left-to-right, but unlike block elements that are floated, they still need to deal with the text nodes on either side which create unwanted margin. This hack of setting the font-size to zero makes the space disappear.)
+ */
+@mixin row {
+    font-size: 0;
+}
+
+@mixin margin-setup($colbreak, $from: null) {
+
+    // Vertical alignments: default is bottom.
+    &.top {
+
+        .col,
+        .col-x2,
+        .col-x3,
+        .col-x5 {
+            vertical-align: top;
+        }
+
+        &.subcolrow {
+
+            .subcol,
+            .subcol-x2,
+            .subcol-x3 {
+                vertical-align: top;
+            }
+        }
+    }
+
+    &.middle {
+
+        .col,
+        .col-x2,
+        .col-x3,
+        .col-x5 {
+            vertical-align: middle;
+        }
+
+        &.subcolrow {
+
+            .subcol,
+            .subcol-x2,
+            .subcol-x3 {
+                vertical-align: middle;
+            }
+        }
+    }
+
+    .col,
+    .col-x2,
+    .col-x3,
+    .col-x5,
+    .subcol,
+    .subcol-x2,
+    .subcol-x3 {
+        @include font-size($font__size);
+        @include mobile-max-width;
+
+        @if 1==$colbreak {
+            @include center-block;
+        }
+
+        @else {
+            display: inline-block;
+            margin-right: $columns__margin;
+
+            &:nth-of-type(#{$colbreak}n),
+            &:nth-of-type(#{$colbreak}n+1) {
+                margin-right: $columns__margin;
+            }
+
+            &:nth-of-type(#{$colbreak}n),
+            &:nth-of-type(#{$colbreak}) {
+                margin-right: 0;
+            }
+        }
+
+        box-sizing: border-box;
+        margin-bottom: $margin__xs;
+
+        @include respond-bigger($breakpoint__medium) {
+            margin-bottom: auto;
+
+            @if 1 !=$colbreak {
+
+                &:nth-of-type(#{$from}n),
+                &:nth-of-type(#{$from}n+1) {
+                    margin-right: $columns__margin;
+                }
+
+                &:nth-of-type(#{$colbreak}n),
+                &:nth-of-type(#{$colbreak}) {
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Mixin to generate the columns
+ * $col = number of column units that this column element will occupy
+ * $sum = total number of column units the row will be split into
+ * $numberofcolumns = actual total number of column elements that will occupy this row
+ *
+ * Example: Row split into 2 column units occupied by 2 column elements of equal width.
+ *  Both column elements: col(1, 2, 2);
+ * Example: Row split into 3 column units occupied by 2 column elements, one width = 1 third, the other width = 2 thirds.
+ *  Column element 1: col(1, 3, 2);
+ *  Column element 2: col(2, 3, 2);
+ * Example: Row split into 4 column units occupied by 2 column elements, one width = 1 quarter, the other width = 3 quarters.
+ *  Column element 1: col(1, 4, 2);
+ *  Column element 2: col(3, 4, 2);
+ */
+@mixin col($col, $sum, $numberofcolumns: 0) {
+    width: percentage($col / $sum) - $columns__margin * ($numberofcolumns - 1) / $numberofcolumns;
+}
