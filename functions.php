@@ -61,6 +61,9 @@ if ( ! function_exists( '_s_setup' ) ) :
 			]
 		);
 
+		// Add support for loading style sheets in the editor.
+		add_theme_support( 'editor-styles' );
+
 		// Add theme support for selective refresh for widgets.
 		// add_theme_support( 'customize-selective-refresh-widgets' );
 	}
@@ -131,3 +134,12 @@ if ( class_exists( 'WooCommerce' ) ) {
  * Load login page customiser file.
  */
 require get_template_directory() . '/inc/customise-login.php';
+
+/**
+ * Enqueue editor style.
+ */
+function _s_add_editor_styles() {
+	add_editor_style( 'style-editor.css' );
+
+}
+add_action( 'admin_init', '_s_add_editor_styles', 9999 );
