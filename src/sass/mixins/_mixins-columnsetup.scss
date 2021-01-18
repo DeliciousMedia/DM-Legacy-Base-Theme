@@ -10,102 +10,32 @@
     }
 }
 
-/**
- * Set up the row. We're using the SASS grid as a basis here. http://thesassway.com/intermediate/simple-grid-mixins
- *
- * font-size is set to 0 because : This is little hack to kill the default margin of inline-block elements. (Inline-block elements appear in the normal text flow of the document, left-to-right, but unlike block elements that are floated, they still need to deal with the text nodes on either side which create unwanted margin. This hack of setting the font-size to zero makes the space disappear.)
- */
-@mixin row {
-    font-size: 0;
-}
-
 @mixin margin-setup($colbreak, $from: null) {
 
-    // Vertical alignments: default is bottom.
+    // Vertical alignments: default full height.
     &.top {
-
-        .col,
-        .col-x2,
-        .col-x3,
-        .col-x5 {
-            vertical-align: top;
-        }
-
-        &.subcolrow {
-
-            .subcol,
-            .subcol-x2,
-            .subcol-x3 {
-                vertical-align: top;
-            }
-        }
+        align-items: flex-start;
     }
 
     &.middle {
-
-        .col,
-        .col-x2,
-        .col-x3,
-        .col-x5 {
-            vertical-align: middle;
-        }
-
-        &.subcolrow {
-
-            .subcol,
-            .subcol-x2,
-            .subcol-x3 {
-                vertical-align: middle;
-            }
-        }
+        align-items: center;
     }
 
-    .col,
-    .col-x2,
-    .col-x3,
-    .col-x5,
-    .subcol,
-    .subcol-x2,
-    .subcol-x3 {
-        @include font-size($font__size);
-        @include mobile-max-width;
+    &.bottom {
+        align-items: flex-end;
+    }
 
-        @if 1==$colbreak {
-            @include center-block;
-        }
+    .col {
+        @if 1 !=$colbreak {
 
-        @else {
-            display: inline-block;
-            margin-right: $columns__margin;
-
-            &:nth-of-type(#{$colbreak}n),
-            &:nth-of-type(#{$colbreak}n+1) {
+            &:nth-of-type(#{$from}n),
+            &:nth-of-type(#{$from}n+1) {
                 margin-right: $columns__margin;
             }
 
             &:nth-of-type(#{$colbreak}n),
             &:nth-of-type(#{$colbreak}) {
                 margin-right: 0;
-            }
-        }
-
-        box-sizing: border-box;
-        margin-bottom: $margin__xs;
-
-        @include respond-bigger($breakpoint__medium) {
-            margin-bottom: auto;
-
-            @if 1 !=$colbreak {
-
-                &:nth-of-type(#{$from}n),
-                &:nth-of-type(#{$from}n+1) {
-                    margin-right: $columns__margin;
-                }
-
-                &:nth-of-type(#{$colbreak}n),
-                &:nth-of-type(#{$colbreak}) {
-                    margin-right: 0;
-                }
             }
         }
     }
@@ -127,5 +57,5 @@
  *  Column element 2: col(3, 4, 2);
  */
 @mixin col($col, $sum, $numberofcolumns: 0) {
-    width: percentage($col / $sum) - $columns__margin * ($numberofcolumns - 1) / $numberofcolumns;
+    flex-basis: percentage($col / $sum) - $columns__margin * ($numberofcolumns - 1) / $numberofcolumns;
 }
