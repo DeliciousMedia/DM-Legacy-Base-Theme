@@ -35,7 +35,8 @@ gulp.task('sass', function() {
         .pipe(stripcsscomments())
         .pipe(gulp.dest('./assets/css'))
         .pipe(cssnano({
-            autoprefixer: {browsers: ['> 1%', 'last 2 versions', 'iOS >= 8'], add: true}
+            autoprefixer: {browsers: ['> 1%', 'last 2 versions', 'iOS >= 8'], add: true},
+            zindex: false
         }))
         .pipe(rename({ extname: '.min.css' }))
         .pipe(sourcemaps.write('.'))
